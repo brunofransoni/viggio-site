@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Viggio Tech — Segurança perimetral inteligente para condomínios em São Paulo. Poste Viggio com câmeras IA, leitura de placas e integração Smart Sampa."/>
+<meta name="keywords" content="segurança condomínio, câmera inteligente, vigilância São Paulo, Smart Sampa, poste câmera, CFTV condomínio"/>
+<title>Viggio Tech — Segurança Perimetral Inteligente</title>
+
+<!-- Fonte: Sora (display) + DM Sans (corpo) — únicas, não-genéricas -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+
+<style>
+/* ── TOKENS ── */
+:root {
+  --navy:       #0F1E45;
+  --navy2:      #1B2A5C;
+  --navy3:      #243370;
+  --cyan:       #00C8DC;
+  --cyan-dim:   #00A0B2;
+  --cyan-glow:  rgba(0,200,220,.18);
+  --white:      #FFFFFF;
+  --off:        #F5F7FC;
+  --off2:       #EBEef6;
+  --text:       #0D1117;
+  --muted:      #5A6478;
+  --border:     rgba(0,0,0,.07);
+  --border-inv: rgba(255,255,255,.1);
+
+  --font-disp:  'Sora', sans-serif;
+  --font-body:  'DM Sans', sans-serif;
+
+  --ease:       cubic-bezier(.4,0,.2,1);
+  --r-sm: 8px; --r-md: 14px; --r-lg: 20px; --r-xl: 28px;
+}
+
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);font-size:16px;color:var(--text);background:var(--white);line-height:1.65;-webkit-font-smoothing:antialiased;}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+ul{list-style:none;}
+
+/* ── UTILITIES ── */
+.container{max-width:1140px;margin:0 auto;padding:0 40px;}
+.section{padding:96px 0;}
+.section--dark{background:var(--navy);color:var(--white);}
+.section--off{background:var(--off);}
+.tag{display:inline-block;font-family:var(--font-disp);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;}
+.section--dark .tag{color:var(--cyan);}
+h1,h2,h3,h4{font-family:var(--font-disp);}
+h2.section-title{font-size:clamp(28px,4vw,42px);font-weight:800;line-height:1.15;color:var(--navy);margin-bottom:16px;}
+.section--dark h2.section-title{color:var(--white);}
+p.section-lead{font-size:17px;color:var(--muted);max-width:560px;line-height:1.7;}
+.section--dark p.section-lead{color:rgba(255,255,255,.65);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse-ring{0%{transform:scale(1);opacity:.6;}100%{transform:scale(1.8);opacity:0;}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+@keyframes scan{0%{top:0;}100%{top:calc(100% - 2px);}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+@keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+
+.fade-up{opacity:0;animation:fadeUp .7s var(--ease) forwards;}
+.fade-up:nth-child(1){animation-delay:.05s;}
+.fade-up:nth-child(2){animation-delay:.15s;}
+.fade-up:nth-child(3){animation-delay:.25s;}
+.fade-up:nth-child(4){animation-delay:.35s;}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(15,30,69,.95);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border-inv);
+}
+.nav__inner{
+  display:flex;align-items:center;justify-content:space-between;
+  height:68px;max-width:1140px;margin:0 auto;padding:0 40px;
+}
+.nav__logo{display:flex;align-items:center;gap:12px;}
+.nav__wordmark{font-family:var(--font-disp);font-size:18px;font-weight:800;color:var(--white);letter-spacing:.5px;}
+.nav__wordmark span{color:var(--cyan);}
+.nav__links{display:flex;gap:36px;}
+.nav__links a{font-size:14px;font-weight:500;color:rgba(255,255,255,.7);transition:color .2s;}
+.nav__links a:hover{color:var(--cyan);}
+.nav__cta{
+  background:var(--cyan);color:var(--navy);
+  padding:9px 22px;border-radius:var(--r-sm);
+  font-family:var(--font-disp);font-size:13px;font-weight:700;
+  letter-spacing:.3px;transition:all .2s;
+}
+.nav__cta:hover{background:#00E0F5;transform:translateY(-1px);}
+.nav__burger{display:none;flex-direction:column;gap:5px;padding:6px;}
+.nav__burger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:all .3s;}
+
+/* ── HERO ── */
+.hero{
+  background:var(--navy);
+  min-height:100vh;
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
+  padding:120px 0 80px;
+}
+/* grade de pontos no fundo */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(0,200,220,.12) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+/* gradiente na esquerda */
+.hero::after{
+  content:'';position:absolute;left:-20%;top:-20%;
+  width:60%;height:140%;
+  background:radial-gradient(ellipse at center,rgba(0,200,220,.07) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero__inner{
+  max-width:1140px;margin:0 auto;padding:0 40px;
+  display:grid;grid-template-columns:1fr 420px;gap:72px;align-items:center;
+  position:relative;z-index:1;width:100%;
+}
+.hero__badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,200,220,.1);
+  border:1px solid rgba(0,200,220,.25);
+  padding:7px 16px;border-radius:100px;margin-bottom:28px;
+}
+.hero__badge-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:blink 2s ease-in-out infinite;}
+.hero__badge span{font-family:var(--font-disp);font-size:12px;font-weight:600;color:var(--cyan);letter-spacing:.5px;}
+.hero h1{
+  font-size:clamp(36px,5vw,60px);
+  font-weight:800;line-height:1.1;
+  color:var(--white);margin-bottom:24px;
+}
+.hero h1 em{color:var(--cyan);font-style:normal;}
+.hero__desc{
+  font-size:17px;color:rgba(255,255,255,.65);
+  max-width:480px;line-height:1.75;margin-bottom:40px;
+}
+.hero__btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:15px 28px;border-radius:var(--r-sm);
+  font-family:var(--font-disp);font-size:15px;font-weight:600;
+  transition:all .25s var(--ease);cursor:pointer;
+}
+.btn--primary{background:var(--cyan);color:var(--navy);}
+.btn--primary:hover{background:#00E0F5;transform:translateY(-2px);}
+.btn--ghost{
+  border:1.5px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.85);
+}
+.btn--ghost:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn svg{width:16px;height:16px;flex-shrink:0;}
+
+/* HERO CARD — poste animado */
+.hero__visual{position:relative;display:flex;justify-content:center;}
+.poste-wrap{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(0,200,220,.15);
+  border-radius:var(--r-xl);
+  padding:32px 28px 24px;
+  backdrop-filter:blur(8px);
+  animation:float 5s ease-in-out infinite;
+  width:100%;max-width:360px;
+}
+.poste-screen{
+  background:#080F24;border-radius:var(--r-md);
+  padding:20px;margin-bottom:20px;
+  position:relative;overflow:hidden;
+  aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+}
+.scan-line{
+  position:absolute;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  animation:scan 2.5s linear infinite;
+  opacity:.5;
+}
+.cam-feed{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;
+  position:relative;z-index:1;
+}
+.cam-thumb{
+  background:#0D1A38;border-radius:6px;
+  aspect-ratio:4/3;position:relative;overflow:hidden;
+  border:1px solid rgba(0,200,220,.1);
+}
+.cam-thumb::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 40% 40%,rgba(0,200,220,.06) 0%,transparent 70%);
+}
+.cam-label{
+  position:absolute;bottom:4px;left:4px;
+  font-family:var(--font-disp);font-size:7px;font-weight:600;
+  color:var(--cyan);letter-spacing:.5px;
+  background:rgba(0,0,0,.5);padding:2px 5px;border-radius:3px;
+}
+.alert-badge{
+  position:absolute;top:8px;right:8px;
+  background:#25D366;color:#fff;
+  font-family:var(--font-disp);font-size:8px;font-weight:700;
+  padding:3px 7px;border-radius:100px;letter-spacing:.3px;
+}
+.alert-badge.warn{background:#F59E0B;}
+.poste-info{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.pinfo-item{text-align:center;background:rgba(0,200,220,.06);border-radius:8px;padding:10px 4px;}
+.pinfo-n{font-family:var(--font-disp);font-size:19px;font-weight:800;color:var(--cyan);}
+.pinfo-l{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px;}
+.poste-status{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:16px;padding-top:16px;
+  border-top:1px solid rgba(0,200,220,.1);
+}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#25D366;position:relative;}
+.status-dot::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid #25D366;animation:pulse-ring 1.8s ease-out infinite;
+}
+.status-text{font-size:11px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:6px;}
+.status-brand{font-family:var(--font-disp);font-size:11px;font-weight:700;color:rgba(255,255,255,.3);}
+
+/* TRUST LOGOS / BADGES */
+.hero__trust{margin-top:48px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.trust-item{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  padding:8px 14px;border-radius:100px;
+  font-size:12px;color:rgba(255,255,255,.6);
+}
+.trust-item svg{width:14px;height:14px;color:var(--cyan);}
+
+/* ── STATS ── */
+.stats{background:var(--off2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.stats__inner{
+  max-width:1140px;margin:0 auto;padding:0 40px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.stat-item{
+  padding:36px 20px;text-align:center;
+  border-right:1px solid var(--border);
+}
+.stat-item:last-child{border-right:none;}
+.stat-n{font-family:var(--font-disp);font-size:36px;font-weight:800;color:var(--navy);line-height:1;}
+.stat-n span{color:var(--cyan);}
+.stat-l{font-size:13px;color:var(--muted);margin-top:6px;}
+
+/* ── COMO FUNCIONA ── */
+.how__grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:24px;margin-top:56px;
+}
+.how-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:36px 32px;
+  position:relative;transition:border-color .25s,transform .25s;
+}
+.how-card:hover{border-color:var(--cyan);transform:translateY(-4px);}
+.how-card__num{
+  font-family:var(--font-disp);font-size:72px;font-weight:900;
+  color:var(--off2);line-height:1;margin-bottom:16px;
+  background:linear-gradient(135deg,var(--off2) 0%,var(--off) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.how-card__accent{width:32px;height:3px;background:var(--cyan);border-radius:2px;margin-bottom:20px;}
+.how-card h3{font-family:var(--font-disp);font-size:19px;font-weight:700;color:var(--navy);margin-bottom:10px;}
+.how-card p{font-size:14px;color:var(--muted);line-height:1.7;}
+
+/* ── DIFERENCIAIS ── */
+.feats__grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:20px;margin-top:56px;
+}
+.feat-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border-inv);
+  border-radius:var(--r-lg);padding:28px;
+  display:flex;gap:20px;align-items:flex-start;
+  transition:border-color .25s,background .25s;
+}
+.feat-card:hover{border-color:rgba(0,200,220,.3);background:rgba(0,200,220,.04);}
+.feat-icon{
+  width:44px;height:44px;border-radius:10px;flex-shrink:0;
+  background:rgba(0,200,220,.1);
+  display:flex;align-items:center;justify-content:center;
+}
+.feat-icon svg{width:22px;height:22px;color:var(--cyan);}
+.feat-card h3{font-family:var(--font-disp);font-size:16px;font-weight:700;color:var(--white);margin-bottom:7px;}
+.feat-card p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.65;}
+
+/* ── PLANOS ── */
+.plans__grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:20px;margin-top:56px;align-items:start;
+}
+.plan-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border-inv);
+  border-radius:var(--r-xl);padding:32px;
+  transition:transform .25s,border-color .25s;
+}
+.plan-card:hover{transform:translateY(-4px);}
+.plan-card--featured{
+  background:var(--cyan);border-color:var(--cyan);
+  transform:scale(1.02);
+}
+.plan-card--featured:hover{transform:scale(1.02) translateY(-4px);}
+.plan-badge{
+  display:inline-block;
+  background:var(--navy);color:var(--cyan);
+  font-family:var(--font-disp);font-size:10px;font-weight:700;
+  padding:4px 12px;border-radius:100px;letter-spacing:.5px;
+  margin-bottom:16px;
+}
+.plan-tier{font-family:var(--font-disp);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px;}
+.plan-card--featured .plan-tier{color:rgba(15,30,69,.6);}
+.plan-name{font-family:var(--font-disp);font-size:24px;font-weight:800;color:var(--white);margin-bottom:8px;}
+.plan-card--featured .plan-name{color:var(--navy);}
+.plan-price{font-family:var(--font-disp);font-size:40px;font-weight:900;color:var(--white);line-height:1;margin-bottom:4px;}
+.plan-card--featured .plan-price{color:var(--navy);}
+.plan-price sub{font-size:16px;font-weight:400;vertical-align:baseline;opacity:.7;}
+.plan-price sup{font-size:18px;vertical-align:top;margin-top:8px;display:inline-block;}
+.plan-period{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:24px;}
+.plan-card--featured .plan-period{color:rgba(15,30,69,.55);}
+.plan-divider{height:1px;background:rgba(255,255,255,.1);margin-bottom:24px;}
+.plan-card--featured .plan-divider{background:rgba(15,30,69,.15);}
+.plan-features{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.plan-feat{display:flex;align-items:flex-start;gap:10px;}
+.plan-feat-check{
+  width:18px;height:18px;border-radius:50%;flex-shrink:0;margin-top:2px;
+  background:rgba(0,200,220,.15);
+  display:flex;align-items:center;justify-content:center;
+}
+.plan-card--featured .plan-feat-check{background:rgba(15,30,69,.12);}
+.plan-feat-check svg{width:10px;height:10px;color:var(--cyan);}
+.plan-card--featured .plan-feat-check svg{color:var(--navy);}
+.plan-feat span{font-size:13px;color:rgba(255,255,255,.7);line-height:1.5;}
+.plan-card--featured .plan-feat span{color:rgba(15,30,69,.8);}
+.plan-btn{
+  display:block;width:100%;text-align:center;
+  padding:13px;border-radius:var(--r-sm);
+  font-family:var(--font-disp);font-size:14px;font-weight:700;
+  border:1.5px solid rgba(255,255,255,.2);
+  color:var(--white);transition:all .2s;
+}
+.plan-btn:hover{background:rgba(255,255,255,.08);}
+.plan-card--featured .plan-btn{background:var(--navy);color:var(--cyan);border-color:var(--navy);}
+.plan-card--featured .plan-btn:hover{background:#0A1530;}
+
+/* ── SMART SAMPA SECTION ── */
+.sampa{background:var(--off);padding:80px 0;}
+.sampa__inner{
+  max-width:1140px;margin:0 auto;padding:0 40px;
+  display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;
+}
+.sampa__visual{
+  background:var(--navy);border-radius:var(--r-xl);
+  padding:36px;position:relative;overflow:hidden;
+}
+.sampa__visual::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(0,200,220,.08) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.map-pins{position:relative;z-index:1;height:220px;}
+.map-city{
+  font-family:var(--font-disp);font-size:13px;font-weight:700;
+  color:rgba(255,255,255,.3);letter-spacing:1px;
+  text-align:center;margin-bottom:16px;
+}
+.pin-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;justify-items:center;}
+.pin{
+  width:10px;height:10px;border-radius:50%;
+  background:rgba(0,200,220,.25);
+  position:relative;transition:all .3s;
+}
+.pin.active{background:var(--cyan);}
+.pin.active::after{
+  content:'';position:absolute;inset:-5px;border-radius:50%;
+  border:1px solid var(--cyan);animation:pulse-ring 2s ease-out infinite;
+}
+.pin.viggio{background:#25D366;width:14px;height:14px;}
+.pin.viggio::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid #25D366;animation:pulse-ring 1.5s ease-out infinite;}
+.sampa__label{
+  margin-top:20px;
+  background:rgba(0,200,220,.08);border:1px solid rgba(0,200,220,.15);
+  border-radius:var(--r-sm);padding:12px 16px;
+  display:flex;align-items:center;gap:10px;
+  position:relative;z-index:1;
+}
+.sampa__label-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);}
+.sampa__label span{font-size:12px;color:rgba(255,255,255,.7);}
+.sampa__label strong{color:var(--cyan);}
+.sampa__text h2{font-family:var(--font-disp);font-size:32px;font-weight:800;color:var(--navy);line-height:1.2;margin-bottom:16px;}
+.sampa__text p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:20px;}
+.sampa__points{display:flex;flex-direction:column;gap:14px;margin-top:8px;}
+.sampa-point{display:flex;align-items:flex-start;gap:12px;}
+.sampa-point-icon{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  background:var(--cyan-glow);
+  display:flex;align-items:center;justify-content:center;margin-top:2px;
+}
+.sampa-point-icon svg{width:16px;height:16px;color:var(--cyan-dim);}
+.sampa-point h4{font-family:var(--font-disp);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.sampa-point p{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* ── TESTEMUNHOS ── */
+.testimonials{background:var(--navy);padding:80px 0;}
+.test__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+.test-card{
+  background:rgba(255,255,255,.05);border:1px solid var(--border-inv);
+  border-radius:var(--r-lg);padding:28px;
+}
+.test-stars{display:flex;gap:3px;margin-bottom:16px;}
+.test-star{width:14px;height:14px;color:var(--cyan);}
+.test-text{font-size:14px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:20px;font-style:italic;}
+.test-author{display:flex;align-items:center;gap:12px;}
+.test-avatar{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  background:rgba(0,200,220,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-disp);font-size:13px;font-weight:700;color:var(--cyan);
+}
+.test-name{font-family:var(--font-disp);font-size:14px;font-weight:700;color:var(--white);}
+.test-role{font-size:12px;color:rgba(255,255,255,.4);}
+
+/* ── FAQ ── */
+.faq{padding:80px 0;background:var(--off);}
+.faq__list{max-width:720px;margin:48px auto 0;display:flex;flex-direction:column;gap:12px;}
+.faq-item{background:var(--white);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 24px;cursor:pointer;
+  font-family:var(--font-disp);font-size:15px;font-weight:600;color:var(--navy);
+  transition:color .2s;
+  user-select:none;
+}
+.faq-q:hover{color:var(--cyan-dim);}
+.faq-arrow{width:18px;height:18px;flex-shrink:0;transition:transform .3s;color:var(--muted);}
+.faq-item.open .faq-arrow{transform:rotate(180deg);}
+.faq-a{
+  max-height:0;overflow:hidden;transition:max-height .35s var(--ease),padding .35s;
+  padding:0 24px;font-size:14px;color:var(--muted);line-height:1.75;
+}
+.faq-item.open .faq-a{max-height:200px;padding:0 24px 20px;}
+
+/* ── CTA WHATSAPP ── */
+.cta-wpp{padding:80px 40px;text-align:center;background:var(--navy);}
+.cta-wpp__box{
+  max-width:680px;margin:0 auto;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border-inv);
+  border-radius:var(--r-xl);padding:56px 48px;
+  position:relative;overflow:hidden;
+}
+.cta-wpp__box::before{
+  content:'';position:absolute;top:-40%;right:-10%;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,200,220,.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cta-wpp__tag{font-family:var(--font-disp);font-size:11px;font-weight:700;letter-spacing:2px;color:var(--cyan);text-transform:uppercase;margin-bottom:12px;}
+.cta-wpp h2{font-family:var(--font-disp);font-size:32px;font-weight:800;color:var(--white);margin-bottom:12px;line-height:1.2;}
+.cta-wpp p{font-size:16px;color:rgba(255,255,255,.6);margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;}
+.wpp-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  background:#25D366;color:var(--white);
+  padding:17px 36px;border-radius:var(--r-sm);
+  font-family:var(--font-disp);font-size:16px;font-weight:700;
+  transition:all .25s;
+}
+.wpp-btn:hover{background:#1ebe59;transform:translateY(-2px);}
+.wpp-btn svg{width:22px;height:22px;}
+.cta-wpp__note{font-size:12px;color:rgba(255,255,255,.3);margin-top:16px;}
+
+/* ── FOOTER ── */
+footer{background:#080F24;border-top:1px solid rgba(255,255,255,.06);padding:48px 0 32px;}
+.footer__inner{max-width:1140px;margin:0 auto;padding:0 40px;}
+.footer__top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+.footer__brand p{font-size:13px;color:rgba(255,255,255,.4);margin-top:16px;line-height:1.7;max-width:220px;}
+.footer__col h4{font-family:var(--font-disp);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:16px;}
+.footer__col ul{display:flex;flex-direction:column;gap:10px;}
+.footer__col ul a{font-size:13px;color:rgba(255,255,255,.5);transition:color .2s;}
+.footer__col ul a:hover{color:var(--cyan);}
+.footer__bottom{
+  border-top:1px solid rgba(255,255,255,.06);padding-top:24px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;color:rgba(255,255,255,.3);flex-wrap:wrap;gap:12px;
+}
+.footer__bottom a{color:rgba(255,255,255,.3);transition:color .2s;}
+.footer__bottom a:hover{color:var(--cyan);}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  .container,.nav__inner,.hero__inner,.stats__inner,.sampa__inner,.footer__inner{padding-left:20px;padding-right:20px;}
+  .hero__inner{grid-template-columns:1fr;gap:48px;}
+  .hero__visual{order:-1;}
+  .poste-wrap{max-width:100%;}
+  .stats__inner,.how__grid,.feats__grid,.plans__grid,.test__grid,.footer__top{grid-template-columns:1fr;}
+  .stat-item{border-right:none;border-bottom:1px solid var(--border);padding:24px;}
+  .stat-item:last-child{border-bottom:none;}
+  .plan-card--featured{transform:none;}
+  .sampa__inner{grid-template-columns:1fr;}
+  .nav__links{display:none;}
+  .nav__burger{display:flex;}
+  h2.section-title{font-size:26px;}
+  .hero h1{font-size:32px;}
+  .section{padding:64px 0;}
+  .cta-wpp__box{padding:36px 24px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ────────────── NAV ────────────── -->
+<nav class="nav" role="navigation" aria-label="Menu principal">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo" aria-label="Viggio Tech — Página inicial">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+        <path d="M4 5L17 28L30 5" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 5L17 23L26 5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>
+        <path d="M12 5L17 18L22 5" fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".28"/>
+        <circle cx="17" cy="17.5" r="5" fill="#00C8DC"/>
+        <circle cx="17" cy="17.5" r="2.5" fill="#005F6B"/>
+        <circle cx="17" cy="17.5" r="1" fill="#00E8FF" opacity=".8"/>
+      </svg>
+      <span class="nav__wordmark">VIGGIO<span> TECH</span></span>
+    </a>
+    <nav class="nav__links" aria-label="Links de navegação">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#planos">Planos</a>
+      <a href="#smart-sampa">Smart Sampa</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+    <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20o%20Poste%20Viggio" class="nav__cta" target="_blank" rel="noopener">Solicitar visita</a>
+    <button class="nav__burger" aria-label="Abrir menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ────────────── HERO ────────────── -->
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero__inner">
+    <div class="hero__text">
+      <div class="hero__badge fade-up">
+        <div class="hero__badge-dot" aria-hidden="true"></div>
+        <span>Integrado ao Smart Sampa · Prefeitura SP</span>
+      </div>
+      <h1 id="hero-heading" class="fade-up">
+        Segurança perimetral<br><em>inteligente</em> para o<br>seu condomínio
+      </h1>
+      <p class="hero__desc fade-up">
+        O Poste Viggio monitora, alerta e protege 24h com câmeras IA, leitura automática de placas e sirene remota. Tudo por assinatura mensal, sem burocracia e sem multa de saída.
+      </p>
+      <div class="hero__btns fade-up">
+        <a href="#planos" class="btn btn--primary">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1L15 8L8 15M1 8H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Ver planos
+        </a>
+        <a href="#como-funciona" class="btn btn--ghost">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Como funciona
+        </a>
+      </div>
+      <div class="hero__trust fade-up">
+        <div class="trust-item">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.3l-3.7 1.9.7-4.1-3-2.9 4.2-.7z" fill="currentColor"/></svg>
+          Instalação gratuita
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 3L6 10l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Sem multa rescisória
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 7h6M5 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Suporte 24h incluso
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__visual" aria-hidden="true">
+      <div class="poste-wrap">
+        <div class="poste-screen">
+          <div class="scan-line"></div>
+          <div class="cam-feed">
+            <div class="cam-thumb">
+              <div class="cam-label">CAM 01 · FACHADA</div>
+              <div class="alert-badge">OK</div>
+            </div>
+            <div class="cam-thumb">
+              <div class="cam-label">CAM 02 · LATERAL</div>
+              <div class="alert-badge warn">ALERTA</div>
+            </div>
+            <div class="cam-thumb">
+              <div class="cam-label">LPR · PLACA</div>
+              <div class="alert-badge">OK</div>
+            </div>
+            <div class="cam-thumb">
+              <div class="cam-label">CAM 04 · GARAGEM</div>
+              <div class="alert-badge">OK</div>
+            </div>
+          </div>
+        </div>
+        <div class="poste-info">
+          <div class="pinfo-item">
+            <div class="pinfo-n">24h</div>
+            <div class="pinfo-l">Monitoramento</div>
+          </div>
+          <div class="pinfo-item">
+            <div class="pinfo-n">4K</div>
+            <div class="pinfo-l">Câmeras IA</div>
+          </div>
+          <div class="pinfo-item">
+            <div class="pinfo-n">&lt;1s</div>
+            <div class="pinfo-l">Alerta IA</div>
+          </div>
+        </div>
+        <div class="poste-status">
+          <div class="status-text">
+            <div class="status-dot"></div>
+            Sistema ativo · São Paulo SP
+          </div>
+          <span class="status-brand">viggio.com.br</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────── STATS ────────────── -->
+<section class="stats" aria-label="Números do mercado">
+  <div class="stats__inner">
+    <div class="stat-item">
+      <div class="stat-n">50<span>k+</span></div>
+      <div class="stat-l">Câmeras no Smart Sampa</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n">90<span>k</span></div>
+      <div class="stat-l">Condomínios em São Paulo</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n">R$<span>0</span></div>
+      <div class="stat-l">Taxa de instalação</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n">10<span>+</span></div>
+      <div class="stat-l">Anos de experiência (AMR)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────── COMO FUNCIONA ────────────── -->
+<section class="section" id="como-funciona" aria-labelledby="como-heading">
+  <div class="container">
+    <div class="tag">Como funciona</div>
+    <h2 class="section-title" id="como-heading">Três passos para o seu<br>condomínio estar protegido</h2>
+    <p class="section-lead">Do primeiro contato à instalação completa, a Viggio Tech cuida de tudo. O síndico não precisa entender de tecnologia.</p>
+    <div class="how__grid">
+      <div class="how-card fade-up">
+        <div class="how-card__num">01</div>
+        <div class="how-card__accent"></div>
+        <h3>Visita técnica gratuita</h3>
+        <p>Nossa equipe visita o condomínio, avalia os pontos de instalação ideais e apresenta uma proposta personalizada — sem compromisso e sem custo.</p>
+      </div>
+      <div class="how-card fade-up">
+        <div class="how-card__num">02</div>
+        <div class="how-card__accent"></div>
+        <h3>Instalação em um dia</h3>
+        <p>O Poste Viggio é instalado na fachada em um único dia pela equipe da AMR Segurança. Câmeras, conectividade e app já configurados na entrega.</p>
+      </div>
+      <div class="how-card fade-up">
+        <div class="how-card__num">03</div>
+        <div class="how-card__accent"></div>
+        <h3>Proteção imediata</h3>
+        <p>Porteiro e síndico ganham acesso ao app Viggio. Alertas em tempo real, sirene remota e integração automática com o Smart Sampa ativados no mesmo dia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────── DIFERENCIAIS ────────────── -->
+<section class="section section--dark" aria-labelledby="feats-heading">
+  <div class="container">
+    <div class="tag">Tecnologia</div>
+    <h2 class="section-title" id="feats-heading">Por que o Poste Viggio<br>é diferente</h2>
+    <p class="section-lead">Não é uma câmera comum. É uma plataforma de segurança inteligente com IA embarcada, conectada à maior rede de monitoramento da América Latina.</p>
+    <div class="feats__grid">
+      <div class="feat-card fade-up">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" fill="currentColor" opacity=".3"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+        </div>
+        <div>
+          <h3>IA local — alertas em menos de 1 segundo</h3>
+          <p>Processamento de imagem dentro do próprio poste. Sem depender de internet ou nuvem para os alertas críticos. Latência mínima, máxima confiabilidade.</p>
+        </div>
+      </div>
+      <div class="feat-card fade-up">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h3>Leitura automática de placas (LPR)</h3>
+          <p>Toda placa que passa é lida e cruzada com bases de veículos roubados em tempo real. Alerta imediato no celular do porteiro antes do veículo parar.</p>
+        </div>
+      </div>
+      <div class="feat-card fade-up">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5L12 14.7l-4.9 2.5.9-5.5L4 7.8l5.5-.8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <h3>Integrado ao Smart Sampa</h3>
+          <p>Câmeras conectadas à central da Prefeitura de SP. Apoio direto da GCM e Polícia Militar em ocorrências. A mesma rede que tem 50.000 câmeras em SP.</p>
+        </div>
+      </div>
+      <div class="feat-card fade-up">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v10M9 5l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 15c0-1.1.9-2 2-2h10a2 2 0 010 4H7a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="15" r="1.5" fill="currentColor"/></svg>
+        </div>
+        <div>
+          <h3>Sirene 110dB e voz bidirecional</h3>
+          <p>Porteiro aciona sirene e fala pelo alto-falante do poste sem sair da portaria. Dissuasão ativa e comunicação em tempo real com quem está na rua.</p>
+        </div>
+      </div>
+      <div class="feat-card fade-up">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M9 7h6M9 11h6M9 15h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h3>App Viggio para moradores e porteiro</h3>
+          <p>Câmeras ao vivo, histórico de eventos, alertas push, botão de pânico e relatório de ocorrências. Tudo no celular, com autenticação segura.</p>
+        </div>
+      </div>
+      <div class="feat-card fade-up">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <h3>No-break 4h e conectividade redundante</h3>
+          <p>O poste continua funcionando mesmo em queda de energia. Conexão Wi-Fi + 4G com failover automático. Uptime médio acima de 99%.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────── SMART SAMPA ────────────── -->
+<section class="sampa" id="smart-sampa" aria-labelledby="sampa-heading">
+  <div class="sampa__inner">
+    <div class="sampa__visual" aria-hidden="true">
+      <div class="map-city">SÃO PAULO · REDE SMART SAMPA</div>
+      <div class="map-pins pin-grid">
+        <div class="pin active"></div><div class="pin"></div><div class="pin active"></div><div class="pin"></div><div class="pin active"></div>
+        <div class="pin"></div><div class="pin active"></div><div class="pin viggio" title="Poste Viggio"></div><div class="pin active"></div><div class="pin"></div>
+        <div class="pin active"></div><div class="pin"></div><div class="pin active"></div><div class="pin active"></div><div class="pin"></div>
+        <div class="pin"></div><div class="pin active"></div><div class="pin"></div><div class="pin viggio"></div><div class="pin active"></div>
+        <div class="pin active"></div><div class="pin"></div><div class="pin active"></div><div class="pin"></div><div class="pin active"></div>
+      </div>
+      <div class="sampa__label">
+        <div class="sampa__label-dot"></div>
+        <span><strong>Viggio Tech</strong> integrada ao Smart Sampa como empresa parceira homologada</span>
+      </div>
+    </div>
+    <div class="sampa__text">
+      <div class="tag">Smart Sampa</div>
+      <h2 id="sampa-heading">Sua câmera faz parte da maior rede de segurança da América Latina</h2>
+      <p>O Smart Sampa é o programa da Prefeitura de SP que integra câmeras públicas e privadas numa central única com IA, reconhecimento facial e leitura de placas.</p>
+      <div class="sampa__points">
+        <div class="sampa-point">
+          <div class="sampa-point-icon">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2l2 4 4.5.6-3.2 3.2.8 4.5L10 12l-4.1 2.3.8-4.5L3.5 6.6 8 6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h4>50.000 câmeras conectadas</h4>
+            <p>A Viggio Tech cadastra a empresa como parceira — todos os postes instalados entram na rede sem burocracia extra para o síndico.</p>
+          </div>
+        </div>
+        <div class="sampa-point">
+          <div class="sampa-point-icon">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M7 10l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <h4>GCM e PM na mesma central</h4>
+            <p>Ocorrências detectadas pelas câmeras Viggio chegam direto para a Guarda Civil Metropolitana com tempo médio de resposta inferior a 10 minutos.</p>
+          </div>
+        </div>
+        <div class="sampa-point">
+          <div class="sampa-point-icon">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 8h14" stroke="currentColor" stroke-width="1.5"/><path d="M7 12h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <h4>Integração gratuita e voluntária</h4>
+            <p>Câmeras voltadas para área pública — o reconhecimento facial é feito exclusivamente pelo poder público, em total conformidade com a LGPD.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────── PLANOS ────────────── -->
+<section class="section section--dark" id="planos" aria-labelledby="planos-heading">
+  <div class="container">
+    <div class="tag">Planos</div>
+    <h2 class="section-title" id="planos-heading">Escolha o plano ideal<br>para o seu condomínio</h2>
+    <p class="section-lead">Hardware em comodato · Instalação gratuita · Sem multa rescisória · Suporte 24h incluso em todos os planos</p>
+    <div class="plans__grid">
+
+      <div class="plan-card fade-up">
+        <div class="plan-tier">Básico</div>
+        <div class="plan-name">Viggio Básico</div>
+        <div class="plan-price"><sup>R$</sup>599<sub>/mês</sub></div>
+        <div class="plan-period">Comodato · contrato 12 meses</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features" role="list">
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>2 câmeras hemisféricas 4MP</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Gravação local 7 dias</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>App Viggio para moradores e porteiro</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Sirene 110dB e girolex remotos</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Feed de vídeo Smart Sampa</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Suporte corretivo 24h</span></li>
+        </ul>
+        <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20plano%20Viggio%20Básico" class="plan-btn" target="_blank" rel="noopener">Solicitar visita gratuita</a>
+      </div>
+
+      <div class="plan-card plan-card--featured fade-up">
+        <div class="plan-badge">Mais popular</div>
+        <div class="plan-tier">Inteligente</div>
+        <div class="plan-name">Viggio Smart</div>
+        <div class="plan-price"><sup>R$</sup>1.199<sub>/mês</sub></div>
+        <div class="plan-period">Comodato · contrato 12 meses</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features" role="list">
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>3 câmeras 8MP + 1 câmera LPR dedicada</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Gravação 15 dias + 3 dias na nuvem</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Leitura automática de placas com alertas</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>IA local — alertas em menos de 1 segundo</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Smart Sampa · feed + leitura de placas</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Manutenção preventiva trimestral</span></li>
+        </ul>
+        <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20plano%20Viggio%20Smart" class="plan-btn" target="_blank" rel="noopener">Solicitar visita gratuita</a>
+      </div>
+
+      <div class="plan-card fade-up">
+        <div class="plan-tier">Premium</div>
+        <div class="plan-name">Viggio Pro</div>
+        <div class="plan-price"><sup>R$</sup>2.299<sub>/mês</sub></div>
+        <div class="plan-period">Comodato · contrato 12 meses</div>
+        <div class="plan-divider"></div>
+        <ul class="plan-features" role="list">
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>4 câmeras 8MP + 2 LPR dedicadas</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Gravação 30 dias + 7 dias na nuvem</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>IA completa + RiskHunter™</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Smart Sampa integração completa</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Manutenção preventiva mensal</span></li>
+          <li class="plan-feat"><div class="plan-feat-check"><svg viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1.5 5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Relatório mensal de segurança</span></li>
+        </ul>
+        <a href="https://wa.me/5511999999999?text=Olá!%20Tenho%20interesse%20no%20plano%20Viggio%20Pro" class="plan-btn" target="_blank" rel="noopener">Solicitar visita gratuita</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ────────────── TESTEMUNHOS ────────────── -->
+<section class="testimonials" aria-labelledby="test-heading">
+  <div class="container">
+    <div class="tag">Clientes</div>
+    <h2 class="section-title" id="test-heading">O que os síndicos dizem</h2>
+    <div class="test__grid">
+      <div class="test-card fade-up">
+        <div class="test-stars" aria-label="5 estrelas">
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+        </div>
+        <p class="test-text">"Instalaram em menos de um dia e o porteiro adorou o app. Já recebemos alerta de uma placa suspeita na primeira semana. Valeu cada centavo."</p>
+        <div class="test-author">
+          <div class="test-avatar" aria-hidden="true">CR</div>
+          <div>
+            <div class="test-name">Carlos R.</div>
+            <div class="test-role">Síndico · Cond. Vila Mariana</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars" aria-label="5 estrelas">
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+        </div>
+        <p class="test-text">"O condomínio estava sofrendo com furtos na garagem. Depois do Poste Viggio, não tivemos mais nenhuma ocorrência. O visual do equipamento também impressiona os moradores."</p>
+        <div class="test-author">
+          <div class="test-avatar" aria-hidden="true">AM</div>
+          <div>
+            <div class="test-name">Ana M.</div>
+            <div class="test-role">Síndica · Cond. Santo André</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card fade-up">
+        <div class="test-stars" aria-label="5 estrelas">
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+          <svg class="test-star" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M7 1l1.5 3 3.5.5-2.5 2.5.6 3.5L7 9l-3.1 1.5.6-3.5L2 4.5 5.5 4z"/></svg>
+        </div>
+        <p class="test-text">"Integração com o Smart Sampa foi o diferencial. A GCM já veio duas vezes por alertas das câmeras. Recomendo para qualquer síndico que quer segurança de verdade."</p>
+        <div class="test-author">
+          <div class="test-avatar" aria-hidden="true">RS</div>
+          <div>
+            <div class="test-name">Roberto S.</div>
+            <div class="test-role">Síndico · Cond. Tatuapé</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────── FAQ ────────────── -->
+<section class="faq" id="faq" aria-labelledby="faq-heading">
+  <div class="container" style="text-align:center;">
+    <div class="tag">Dúvidas frequentes</div>
+    <h2 class="section-title" id="faq-heading">Perguntas que os síndicos<br>mais fazem</h2>
+  </div>
+  <div class="faq__list" role="list">
+    <div class="faq-item" role="listitem">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        O condomínio precisa pagar pela instalação?
+        <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="faq-a" role="region">Não. A instalação é totalmente gratuita nos planos com comodato. A Viggio Tech cobre todos os custos de mão de obra, fixação e configuração. O condomínio só paga a mensalidade do plano escolhido.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        Posso cancelar a qualquer momento?
+        <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="faq-a">O contrato é de 12 meses sem multa rescisória. Após esse período, pode cancelar a qualquer momento com 30 dias de aviso. A equipe retira o equipamento sem custo adicional.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        O condomínio precisa fornecer internet?
+        <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="faq-a">O Poste Viggio se conecta preferencialmente ao Wi-Fi do condomínio (sem custo adicional). Em paralelo, já vem com chip 4G M2M integrado que entra em ação automaticamente se o Wi-Fi cair, garantindo 99%+ de uptime.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        Quem pode ver as imagens das câmeras?
+        <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="faq-a">Apenas o síndico, moradores autorizados e o porteiro têm acesso às imagens do condomínio via app Viggio com autenticação. As imagens compartilhadas com o Smart Sampa são acessadas exclusivamente pelo poder público (GCM, Polícia), em conformidade com a LGPD.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        Como funciona a manutenção do equipamento?
+        <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="faq-a">Monitoramos o status de cada poste em tempo real 24h. Se qualquer problema for detectado, nossa equipe é acionada automaticamente. O SLA é de 24h para falhas críticas e 72h para falhas parciais. Manutenção preventiva está incluída nos planos Smart e Pro.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+        O que acontece em caso de queda de energia?
+        <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="faq-a">O Poste Viggio tem no-break interno com autonomia de 4 horas. Em casos de blecaute prolongado, o sistema entra em modo de contingência priorizando a gravação local e os alertas críticos.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ────────────── CTA WHATSAPP ────────────── -->
+<div class="cta-wpp" role="complementary" aria-label="Contato via WhatsApp">
+  <div class="cta-wpp__box">
+    <div class="cta-wpp__tag">Fale conosco</div>
+    <h2>Proteja seu condomínio<br>ainda este mês</h2>
+    <p>Solicite uma visita técnica gratuita. Nossa equipe avalia o condomínio e apresenta uma proposta personalizada em até 24 horas.</p>
+    <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20solicitar%20uma%20visita%20técnica%20gratuita%20do%20Poste%20Viggio" class="wpp-btn" target="_blank" rel="noopener" aria-label="Falar no WhatsApp com a Viggio Tech">
+      <svg class="wpp-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Falar no WhatsApp
+    </a>
+    <p class="cta-wpp__note">Resposta em até 2 horas em dias úteis · viggio.com.br</p>
+  </div>
+</div>
+
+<!-- ────────────── FOOTER ────────────── -->
+<footer role="contentinfo">
+  <div class="footer__inner">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="/" class="nav__logo" style="display:inline-flex;margin-bottom:4px;" aria-label="Viggio Tech">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+            <path d="M4 5L17 28L30 5" fill="none" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 5L17 23L26 5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>
+            <circle cx="17" cy="17.5" r="5" fill="#00C8DC"/>
+            <circle cx="17" cy="17.5" r="2.5" fill="#005F6B"/>
+          </svg>
+          <span class="nav__wordmark" style="font-size:15px;margin-left:10px;">VIGGIO<span> TECH</span></span>
+        </a>
+        <p>Segurança perimetral inteligente para condomínios em São Paulo e Grande ABC.</p>
+      </div>
+      <div class="footer__col">
+        <h4>Produto</h4>
+        <ul>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#planos">Planos e preços</a></li>
+          <li><a href="#smart-sampa">Smart Sampa</a></li>
+          <li><a href="#faq">Perguntas frequentes</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#">Sobre a Viggio Tech</a></li>
+          <li><a href="#">AMR Segurança</a></li>
+          <li><a href="#">Blog de segurança</a></li>
+          <li><a href="#">Trabalhe conosco</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="https://wa.me/5511999999999" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:contato@viggio.com.br">contato@viggio.com.br</a></li>
+          <li><a href="#">São Paulo, SP</a></li>
+          <li><a href="#">Grande ABC</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2025 Viggio Tech Ltda · CNPJ em formação · viggio.com.br</span>
+      <div style="display:flex;gap:20px;">
+        <a href="#">Política de privacidade</a>
+        <a href="#">Termos de uso</a>
+        <a href="#">LGPD</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn){
+  const item=btn.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>{
+    i.classList.remove('open');
+    i.querySelector('.faq-q').setAttribute('aria-expanded','false');
+  });
+  if(!isOpen){
+    item.classList.add('open');
+    btn.setAttribute('aria-expanded','true');
+  }
+}
+
+function toggleMenu(){
+  const links=document.querySelector('.nav__links');
+  if(links){
+    const isVisible=links.style.display==='flex';
+    links.style.display=isVisible?'none':'flex';
+    links.style.flexDirection='column';
+    links.style.position='absolute';
+    links.style.top='68px';
+    links.style.left='0';
+    links.style.right='0';
+    links.style.background='rgba(15,30,69,.98)';
+    links.style.padding='20px 40px';
+    links.style.gap='20px';
+    links.style.borderBottom='1px solid rgba(255,255,255,.08)';
+  }
+}
+
+/* Intersection Observer para fade-up suave */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.animationPlayState='running';
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.fade-up').forEach(el=>{
+  el.style.animationPlayState='paused';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
